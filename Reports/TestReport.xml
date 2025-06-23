@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<test-results xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="nunit_schema_2.5.xsd" name="Pester" total="25" errors="0" failures="0" not-run="0" inconclusive="0" ignored="0" skipped="0" invalid="0" date="2025-06-23" time="20:38:25">
+  <environment clr-version="4.0.30319.42000" user-domain="DESKTOP-KBDCRDK" cwd="C:\Users\Thinh\Desktop\Powershell\AppSettingUpdater-Version2" platform="Microsoft Windows 11 Home Single Language|C:\WINDOWS|\Device\Harddisk0\Partition3" machine-name="DESKTOP-KBDCRDK" nunit-version="2.5.8.0" os-version="10.0.26100" user="Thinh" />
+  <culture-info current-culture="en-US" current-uiculture="en-US" />
+  <test-suite type="TestFixture" name="Pester" executed="True" result="Success" success="True" time="2.785" asserts="0" description="Pester">
+    <results>
+      <test-suite type="TestFixture" name="C:\Users\Thinh\Desktop\Powershell\AppSettingUpdater-Version2\Tests\AppSettingUpdater.Tests.ps1" executed="True" result="Success" success="True" time="2.785" asserts="0" description="C:\Users\Thinh\Desktop\Powershell\AppSettingUpdater-Version2\Tests\AppSettingUpdater.Tests.ps1">
+        <results>
+          <test-suite type="TestFixture" name="AppSettingUpdater Module Tests" executed="True" result="Success" success="True" time="2.1051" asserts="0" description="AppSettingUpdater Module Tests">
+            <results>
+              <test-suite type="TestFixture" name="AppSettingUpdater Module Tests.Test-WebAppContext" executed="True" result="Success" success="True" time="0.6063" asserts="0" description="AppSettingUpdater Module Tests.Test-WebAppContext">
+                <results>
+                  <test-case description="Should not throw if module and context exist" name="AppSettingUpdater Module Tests.Test-WebAppContext.Should not throw if module and context exist" time="0.4658" asserts="0" success="True" result="Success" executed="True" />
+                  <test-case description="Should throw when Az.Websites module is not available" name="AppSettingUpdater Module Tests.Test-WebAppContext.Should throw when Az.Websites module is not available" time="0.0602" asserts="0" success="True" result="Success" executed="True" />
+                  <test-case description="Should throw when not logged into Azure" name="AppSettingUpdater Module Tests.Test-WebAppContext.Should throw when not logged into Azure" time="0.0219" asserts="0" success="True" result="Success" executed="True" />
+                </results>
+              </test-suite>
+              <test-suite type="TestFixture" name="AppSettingUpdater Module Tests.Get-WebAppSlotTarget" executed="True" result="Success" success="True" time="1.0178" asserts="0" description="AppSettingUpdater Module Tests.Get-WebAppSlotTarget">
+                <results>
+                  <test-case description="Should return web app and slot info for valid slots" name="AppSettingUpdater Module Tests.Get-WebAppSlotTarget.Should return web app and slot info for valid slots" time="0.2103" asserts="0" success="True" result="Success" executed="True" />
+                  <test-case description="Should handle multiple web apps" name="AppSettingUpdater Module Tests.Get-WebAppSlotTarget.Should handle multiple web apps" time="0.0397" asserts="0" success="True" result="Success" executed="True" />
+                  <test-case description="Should write warning when slot is not found" name="AppSettingUpdater Module Tests.Get-WebAppSlotTarget.Should write warning when slot is not found" time="0.1536" asserts="0" success="True" result="Success" executed="True" />
+                </results>
+              </test-suite>
+              <test-suite type="TestFixture" name="AppSettingUpdater Module Tests.Set-WebAppSlotAppSetting" executed="True" result="Success" success="True" time="1.2706" asserts="0" description="AppSettingUpdater Module Tests.Set-WebAppSlotAppSetting">
+                <results>
+                  <test-suite type="TestFixture" name="AppSettingUpdater Module Tests.Set-WebAppSlotAppSetting.When setting already has the desired value" executed="True" result="Success" success="True" time="0.0576" asserts="0" description="AppSettingUpdater Module Tests.Set-WebAppSlotAppSetting.When setting already has the desired value">
+                    <results>
+                      <test-case description="Should return Updated = false" name="AppSettingUpdater Module Tests.Set-WebAppSlotAppSetting.When setting already has the desired value.Should return Updated = false" time="0.0525" asserts="0" success="True" result="Success" executed="True" />
+                    </results>
+                  </test-suite>
+                  <test-suite type="TestFixture" name="AppSettingUpdater Module Tests.Set-WebAppSlotAppSetting.When DryRun is enabled" executed="True" result="Success" success="True" time="0.1075" asserts="0" description="AppSettingUpdater Module Tests.Set-WebAppSlotAppSetting.When DryRun is enabled">
+                    <results>
+                      <test-case description="Should not call Set-AzWebAppSlot" name="AppSettingUpdater Module Tests.Set-WebAppSlotAppSetting.When DryRun is enabled.Should not call Set-AzWebAppSlot" time="0.0398" asserts="0" success="True" result="Success" executed="True" />
+                    </results>
+                  </test-suite>
+                  <test-suite type="TestFixture" name="AppSettingUpdater Module Tests.Set-WebAppSlotAppSetting.When setting value differs" executed="True" result="Success" success="True" time="0.2053" asserts="0" description="AppSettingUpdater Module Tests.Set-WebAppSlotAppSetting.When setting value differs">
+                    <results>
+                      <test-case description="Should update and return Updated = true" name="AppSettingUpdater Module Tests.Set-WebAppSlotAppSetting.When setting value differs.Should update and return Updated = true" time="0.088" asserts="0" success="True" result="Success" executed="True" />
+                    </results>
+                  </test-suite>
+                  <test-suite type="TestFixture" name="AppSettingUpdater Module Tests.Set-WebAppSlotAppSetting.When an error occurs" executed="True" result="Success" success="True" time="0.2466" asserts="0" description="AppSettingUpdater Module Tests.Set-WebAppSlotAppSetting.When an error occurs">
+                    <results>
+                      <test-case description="Should throw with descriptive error message" name="AppSettingUpdater Module Tests.Set-WebAppSlotAppSetting.When an error occurs.Should throw with descriptive error message" time="0.03" asserts="0" success="True" result="Success" executed="True" />
+                    </results>
+                  </test-suite>
+                </results>
+              </test-suite>
+              <test-suite type="TestFixture" name="AppSettingUpdater Module Tests.Start-WebAppSlotSwapPreview" executed="True" result="Success" success="True" time="1.5434" asserts="0" description="AppSettingUpdater Module Tests.Start-WebAppSlotSwapPreview">
+                <results>
+                  <test-case description="Should call Switch-AzWebAppSlot with correct parameters" name="AppSettingUpdater Module Tests.Start-WebAppSlotSwapPreview.Should call Switch-AzWebAppSlot with correct parameters" time="0.0698" asserts="0" success="True" result="Success" executed="True" />
+                  <test-case description="Should accept custom source and destination slots" name="AppSettingUpdater Module Tests.Start-WebAppSlotSwapPreview.Should accept custom source and destination slots" time="0.0662" asserts="0" success="True" result="Success" executed="True" />
+                  <test-case description="Should throw when swap initiation fails" name="AppSettingUpdater Module Tests.Start-WebAppSlotSwapPreview.Should throw when swap initiation fails" time="0.13" asserts="0" success="True" result="Success" executed="True" />
+                </results>
+              </test-suite>
+              <test-suite type="TestFixture" name="AppSettingUpdater Module Tests.Complete-WebAppSlotSwap" executed="True" result="Success" success="True" time="1.6503" asserts="0" description="AppSettingUpdater Module Tests.Complete-WebAppSlotSwap">
+                <results>
+                  <test-case description="Should call Switch-AzWebAppSlot with CompleteSlotSwap action" name="AppSettingUpdater Module Tests.Complete-WebAppSlotSwap.Should call Switch-AzWebAppSlot with CompleteSlotSwap action" time="0.0355" asserts="0" success="True" result="Success" executed="True" />
+                  <test-case description="Should accept custom source slot" name="AppSettingUpdater Module Tests.Complete-WebAppSlotSwap.Should accept custom source slot" time="0.0442" asserts="0" success="True" result="Success" executed="True" />
+                  <test-case description="Should throw when completion fails" name="AppSettingUpdater Module Tests.Complete-WebAppSlotSwap.Should throw when completion fails" time="0.0203" asserts="0" success="True" result="Success" executed="True" />
+                </results>
+              </test-suite>
+              <test-suite type="TestFixture" name="AppSettingUpdater Module Tests.Undo-WebAppSlotSwap" executed="True" result="Success" success="True" time="1.7293" asserts="0" description="AppSettingUpdater Module Tests.Undo-WebAppSlotSwap">
+                <results>
+                  <test-case description="Should call Switch-AzWebAppSlot with ResetSlotSwap action" name="AppSettingUpdater Module Tests.Undo-WebAppSlotSwap.Should call Switch-AzWebAppSlot with ResetSlotSwap action" time="0.0244" asserts="0" success="True" result="Success" executed="True" />
+                  <test-case description="Should accept custom source slot" name="AppSettingUpdater Module Tests.Undo-WebAppSlotSwap.Should accept custom source slot" time="0.0159" asserts="0" success="True" result="Success" executed="True" />
+                  <test-case description="Should throw when cancellation fails" name="AppSettingUpdater Module Tests.Undo-WebAppSlotSwap.Should throw when cancellation fails" time="0.034" asserts="0" success="True" result="Success" executed="True" />
+                </results>
+              </test-suite>
+              <test-suite type="TestFixture" name="AppSettingUpdater Module Tests.Parameter Validation Tests" executed="True" result="Success" success="True" time="1.7884" asserts="0" description="AppSettingUpdater Module Tests.Parameter Validation Tests">
+                <results>
+                  <test-case description="Should validate slot parameter values in Set-WebAppSlotAppSetting" name="AppSettingUpdater Module Tests.Parameter Validation Tests.Should validate slot parameter values in Set-WebAppSlotAppSetting" time="0.0278" asserts="0" success="True" result="Success" executed="True" />
+                  <test-case description="Should validate empty SettingName in Set-WebAppSlotAppSetting" name="AppSettingUpdater Module Tests.Parameter Validation Tests.Should validate empty SettingName in Set-WebAppSlotAppSetting" time="0.012" asserts="0" success="True" result="Success" executed="True" />
+                  <test-case description="Should validate slot parameter in Start-WebAppSlotSwapPreview" name="AppSettingUpdater Module Tests.Parameter Validation Tests.Should validate slot parameter in Start-WebAppSlotSwapPreview" time="0.0111" asserts="0" success="True" result="Success" executed="True" />
+                </results>
+              </test-suite>
+              <test-suite type="TestFixture" name="AppSettingUpdater Module Tests.Integration Scenarios" executed="True" result="Success" success="True" time="1.8789" asserts="0" description="AppSettingUpdater Module Tests.Integration Scenarios">
+                <results>
+                  <test-case description="Should handle app settings with special characters" name="AppSettingUpdater Module Tests.Integration Scenarios.Should handle app settings with special characters" time="0.0279" asserts="0" success="True" result="Success" executed="True" />
+                  <test-case description="Should handle empty app settings collection" name="AppSettingUpdater Module Tests.Integration Scenarios.Should handle empty app settings collection" time="0.022" asserts="0" success="True" result="Success" executed="True" />
+                  <test-case description="Should handle null app settings in Get-WebAppSlotTarget" name="AppSettingUpdater Module Tests.Integration Scenarios.Should handle null app settings in Get-WebAppSlotTarget" time="0.0316" asserts="0" success="True" result="Success" executed="True" />
+                </results>
+              </test-suite>
+            </results>
+          </test-suite>
+        </results>
+      </test-suite>
+    </results>
+  </test-suite>
+</test-results>

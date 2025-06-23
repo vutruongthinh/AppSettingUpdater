@@ -1,0 +1,59 @@
+# PowerShell specific
+*.ps1xml
+*.psd1.backup
+*.psm1.backup
+
+# Test and coverage reports
+Reports/*.html
+Reports/*.json
+Reports/TestReport-*.xml
+TestResults.xml
+coverage.xml
+
+# Build artifacts
+bin/
+obj/
+*.nupkg
+
+# IDE and editor files
+.vscode/
+.vs/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
+*.log
+
+# Debug and backup files
+*_backup.*
+*_debug.*
+*_clean.*
+*_temp.*
+
+# Sensitive data
+*.secrets
+secrets.json
+appsettings.local.json
+
+# Azure related
+.azure/
+*.publishsettings
+
+# Node.js (if any JS tools are used)
+node_modules/
+npm-debug.log*
+
+# Keep the main test report
+!Reports/TestReport.xml

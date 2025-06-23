@@ -1,0 +1,91 @@
+name: PowerShell Module CI
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    name: Test PowerShell Module
+    runs-on: windows-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup PowerShell
+      uses: microsoft/setup-msbuild@v1
+      
+    - name: Install required modules
+      shell: pwsh
+      run: |
+        Set-PSRepository PSGallery -InstallationPolicy Trusted
+        Install-Module Az.Websites -Force -Scope CurrentUser
+        Install-Module Pester -MinimumVersion 5.0 -Force -Scope CurrentUser
+        
+    - name: Run Pester Tests
+      shell: pwsh
+      run: |
+        .\Run-Tests.ps1
+        
+    - name: Upload test results
+      uses: actions/upload-artifact@v3
+      if: always()
+      with:
+        name: test-results
+        path: Reports/TestReport.xml
+        
+    - name: Publish test results
+      uses: dorny/test-reporter@v1
+      if: always()
+      with:
+        name: PowerShell Tests
+        path: Reports/TestReport.xml
+        reporter: dotnet-trx
+        fail-on-error: true
+
+  code-quality:
+    name: Code Quality Analysis
+    runs-on: windows-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: PSScriptAnalyzer
+      shell: pwsh
+      run: |
+        Install-Module PSScriptAnalyzer -Force -Scope CurrentUser
+        $results = Invoke-ScriptAnalyzer -Path . -Recurse -Settings PSGallery
+        if ($results) {
+          $results | Format-Table
+          Write-Error "PSScriptAnalyzer found issues"
+        } else {
+          Write-Host "✅ No PSScriptAnalyzer issues found"
+        }
+
+  module-validation:
+    name: Module Validation
+    runs-on: windows-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Test module import
+      shell: pwsh
+      run: |
+        try {
+          Import-Module .\AppSettingUpdater.psd1 -Force
+          $module = Get-Module AppSettingUpdater
+          Write-Host "✅ Module imported successfully"
+          Write-Host "Module Name: $($module.Name)"
+          Write-Host "Module Version: $($module.Version)"
+          Write-Host "Exported Functions: $($module.ExportedFunctions.Count)"
+          $module.ExportedFunctions.Keys | ForEach-Object { Write-Host "  - $_" }
+        } catch {
+          Write-Error "❌ Module import failed: $($_.Exception.Message)"
+          exit 1
+        }
