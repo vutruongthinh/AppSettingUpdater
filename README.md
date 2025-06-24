@@ -7,29 +7,29 @@
 
 ## 🎯 Overview
 
-**AppSettingUpdater v2.0** is an PowerShell module for automated Azure Web App deployments with **zero-downtime slot swapping**. It provides safe, validated, and rollback-capable deployment automation for production environments.
+**AppSettingUpdater v3.0** is a PowerShell module for automated Azure Web App deployments with **slot-based deployment patterns**. It provides a **template-based approach** to safely update app settings and deploy to production through **non-production slots with validation checkpoints**.
 
 ### ✨ Key Features
 
-- 🔄 **Safe Slot Swapping** - Swap with Preview → Validate → Complete or Rollback
-- ⚙️ **Smart App Settings Management** - Only updates when values differ
-- � **Parallel Processing** - Deploy to multiple web apps simultaneously with PowerShell Jobs
-- �🔍 **Built-in Validation** - HTTP health checks with retry logic and URL templates
-- 🛡️ **Automatic Rollback** - Emergency rollback on validation failure
+- 🔄 **Slot-Based Deployments** - Update settings in non-production slots, then swap to production
+- ⚙️ **Smart App Settings Management** - Only updates when values actually differ
+- 🚀 **Parallel Processing** - Deploy to multiple web apps simultaneously with PowerShell Jobs
+- 🎨 **Template-Based Automation** - Customizable `SampleAutomationRunbook.ps1` with slot deployment workflow
+- 🔍 **Validation Checkpoints** - Built-in validation steps with rollback capability
 - 📊 **Comprehensive Logging** - Structured output with timestamps and progress tracking
 - 🧪 **Extensive Testing** - 25 unit tests with 100% function coverage
 - 🚀 **CI/CD Ready** - Professional reporting and exit codes
+- 🛠️ **Easy Customization** - Clear template structure for adding business logic
 
 ## 📦 What's Included
 
 ```
-AppSettingUpdater-Version2/
+AppSettingUpdater-Version3/
 ├── 📁 Module Core
 │   ├── AppSettingUpdater.psd1          # Module manifest
 │   └── AppSettingUpdater.psm1          # 6 production-ready functions
 ├── 🤖 Automation
-│   ├── Run-AppSettingUpdate.ps1        # Enterprise deployment runbook
-│   └── RUNBOOK-EXAMPLES.md             # Usage examples & scenarios
+│   └── SampleAutomationRunbook.ps1     # Customizable automation template
 ├── 🧪 Testing
 │   ├── Run-Tests.ps1                   # Enhanced test runner
 │   └── Tests/AppSettingUpdater.Tests.ps1 # 25 comprehensive tests
@@ -39,11 +39,43 @@ AppSettingUpdater-Version2/
     └── README.md                       # This file
 ```
 
+## 🎨 Template-Based Approach
+
+**v3.0** introduces a slot-based deployment template approach:
+
+- **`SampleAutomationRunbook.ps1`** - A comprehensive template for safe Azure Web App deployments
+- **Slot-Based Workflow** - Update settings in non-production slots first, then swap to production
+- **Validation Checkpoints** - Built-in validation steps with rollback capability  
+- **Parallel Execution** - Built-in support for multiple web apps
+- **Easy Customization** - Clear structure for adding your own business logic and validation
+- **Production-Safe** - Follows enterprise deployment best practices
+
+**Deployment Workflow:**
+1. Update app settings in non-production slot (staging/qa/testing)
+2. Initiate slot swap with preview
+3. Validation checkpoint (customizable)
+4. Complete slot swap to production
+5. Post-deployment verification
+
+The template serves as your starting point - copy it, modify it, and adapt it to your specific Azure environment and requirements.
+
+### 🔄 Slot-Based Deployment Benefits
+
+- **Zero-Downtime Deployments** - Settings are updated in non-production slots first
+- **Built-in Rollback** - Automatic rollback if validation fails
+- **Safe Testing** - Validate changes before they reach production
+- **Enterprise-Ready** - Follows Azure Web App deployment best practices
+- **Customizable Validation** - Add your own health checks and business validation
+- **Parallel Support** - Deploy to multiple apps simultaneously with consistent patterns
+
 ## ⚡ Quick Start
 
 ### 1️⃣ Prerequisites
 
 ```powershell
+# Set execution policy to allow running scripts (if not already set)
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+
 # Install required modules
 Install-Module Az.Websites -Force -Scope CurrentUser
 Install-Module Pester -MinimumVersion 5.0 -Force -Scope CurrentUser
@@ -58,31 +90,30 @@ Connect-AzAccount
 Import-Module ./AppSettingUpdater.psd1 -Force
 ```
 
-### 3️⃣ Single Web App Deployment
+### 3️⃣ Slot-Based Deployment
 
 ```powershell
-# Simple app setting update with slot swap
-.\Run-AppSettingUpdate.ps1 -WebApp "MyApp" -ResourceGroup "MyRG" -SettingName "API_VERSION" -SettingValue "v2.0"
+# Safe slot-based deployment with settings update
+.\SampleAutomationRunbook.ps1 -WebApps "MyApp" -ResourceGroup "MyRG" -SettingName "API_VERSION" -SettingValue "v2.0"
 ```
 
-### 4️⃣ Multiple Web Apps (Parallel Processing)
+### 4️⃣ Multiple Web Apps (Parallel Deployments)
 
 ```powershell
-# Deploy to multiple web apps simultaneously
-.\Run-AppSettingUpdate.ps1 -WebApp @("App1", "App2", "App3") -ResourceGroup "MyRG" -SettingName "VERSION" -SettingValue "2.0" -MaxParallelJobs 3
+# Deploy to multiple web apps simultaneously with slot-based pattern
+.\SampleAutomationRunbook.ps1 -WebApps @("App1", "App2", "App3") -ResourceGroup "MyRG" -SettingName "VERSION" -SettingValue "2.0" -MaxParallelJobs 3
 ```
 
-### 5️⃣ Production Deployment with Validation
+### 5️⃣ Custom Non-Production Slot
 
 ```powershell
-# Full production deployment with health checks
-.\Run-AppSettingUpdate.ps1 `
-    -WebApp "MyApp" `
+# Use custom non-production slot before production deployment
+.\SampleAutomationRunbook.ps1 `
+    -WebApps "MyApp" `
     -ResourceGroup "MyRG" `
     -SettingName "FEATURE_FLAG" `
     -SettingValue "enabled" `
-    -ValidationUrl "https://myapp.azurewebsites.net/health" `
-    -ValidationTimeoutSeconds 600
+    -Slot "qa"
 ```
 
 ## 🔧 Module Functions
@@ -100,35 +131,32 @@ Import-Module ./AppSettingUpdater.psd1 -Force
 
 ### Enterprise Parallel Deployment
 ```powershell
-# Deploy to multiple apps with custom validation and job control
-.\Run-AppSettingUpdate.ps1 `
-    -WebApp @("ProdApp1", "ProdApp2", "ProdApp3", "ProdApp4") `
+# Deploy to multiple apps with slot-based pattern and parallel job control
+.\SampleAutomationRunbook.ps1 `
+    -WebApps @("ProdApp1", "ProdApp2", "ProdApp3", "ProdApp4") `
     -ResourceGroup "Production" `
     -SettingName "RELEASE_VERSION" `
     -SettingValue "2024.12.1" `
-    -ValidationUrl "https://{WebApp}.company.com/health" `
     -MaxParallelJobs 3 `
-    -JobTimeoutMinutes 45 `
     -Force
 ```
 
 ### Enterprise CI/CD Pipeline
 ```powershell
-# Automated deployment with no prompts (CI/CD)
-.\Run-AppSettingUpdate.ps1 `
-    -WebApp "ProdApp" `
+# Automated slot-based deployment with no prompts (CI/CD)
+.\SampleAutomationRunbook.ps1 `
+    -WebApps "ProdApp" `
     -ResourceGroup "Production" `
     -SettingName "BUILD_NUMBER" `
     -SettingValue $env:BUILD_ID `
-    -ValidationUrl "https://prodapp.com/api/health" `
     -Force  # Skip confirmation prompts
 ```
 
 ### Development Testing
 ```powershell
-# Safe testing with dry run
-.\Run-AppSettingUpdate.ps1 `
-    -WebApp "DevApp" `
+# Safe testing with dry run - simulates full slot-based workflow
+.\SampleAutomationRunbook.ps1 `
+    -WebApps "DevApp" `
     -ResourceGroup "Development" `
     -Slot "qa" `
     -SettingName "DEBUG_MODE" `
@@ -151,6 +179,31 @@ $result = Set-WebAppSlotAppSetting -WebApp "MyApp" -Slot "staging" -ResourceGrou
 Start-WebAppSlotSwapPreview -WebApp "MyApp" -ResourceGroup "MyRG"
 # ... perform custom validation ...
 Complete-WebAppSlotSwap -WebApp "MyApp" -ResourceGroup "MyRG"
+```
+
+### Automation Template Usage
+```powershell
+# Use the slot-based deployment template as a starting point
+# Customize SampleAutomationRunbook.ps1 for your specific needs:
+# 1. Copy the template to your own script
+# 2. Modify validation logic and deployment steps
+# 3. Add custom health checks and business logic
+# 4. Integrate with your CI/CD pipeline
+
+.\SampleAutomationRunbook.ps1 `
+    -WebApps @("App1", "App2") `
+    -ResourceGroup "MyRG" `
+    -SettingName "CONFIG_VERSION" `
+    -SettingValue "1.2.3" `
+    -Slot "staging" `
+    -DryRun  # Test the full workflow first
+
+# The template demonstrates:
+# Phase 1: Update settings in non-production slot
+# Phase 2: Initiate slot swap with preview
+# Phase 3: Validation checkpoint (customizable)
+# Phase 4: Complete slot swap to production
+# Phase 5: Post-deployment verification
 ```
 
 ## 🧪 Testing
@@ -182,21 +235,21 @@ Success Rate: 100%
 
 ## 🔄 Deployment Workflow
 
-The automated runbook follows enterprise deployment best practices:
+The slot-based deployment template follows enterprise deployment best practices:
 
 ```mermaid
 graph TD
     A[Start Deployment] --> B[Validate Azure Context]
-    B --> C[Validate Target Slot]
-    C --> D[Update App Settings]
-    D --> E[User Confirmation]
-    E --> F[Initiate Swap Preview]
-    F --> G[HTTP Validation Checks]
-    G --> H{Validation Passed?}
-    H -->|Yes| I[Complete Swap]
-    H -->|No| J[Rollback Swap]
-    I --> K[✅ Success]
-    J --> L[⚠️ Rolled Back]
+    B --> C[Validate Non-Production Slot]
+    C --> D[Update App Settings in Slot]
+    D --> E[Initiate Slot Swap Preview]
+    E --> F[Validation Checkpoint]
+    F --> G{Validation Passed?}
+    G -->|Yes| H[Complete Slot Swap]
+    G -->|No| I[Rollback Swap]
+    H --> J[Post-Deployment Verification]
+    J --> K[✅ Success]
+    I --> L[⚠️ Rolled Back]
 ```
 
 ## 💻 Development & Contribution
@@ -232,16 +285,18 @@ Import-Module .\AppSettingUpdater.psd1 -Force
 ## 🔧 Configuration
 
 ### Supported Azure Slots
-- `staging` (default)
+- `staging` (default for non-production)
 - `testing`
 - `qa` 
 - `preprod`
 
+*Note: The template updates settings in the specified non-production slot, then swaps to production.*
+
 ### Environment Variables
 ```powershell
 # Optional: Set default values
-$env:APPSETTING_DEFAULT_TIMEOUT = "300"  # Validation timeout
-$env:APPSETTING_DEFAULT_SLOT = "staging"  # Default source slot
+$env:APPSETTING_DEFAULT_SLOT = "staging"  # Default non-production slot
+$env:APPSETTING_MAX_PARALLEL = "5"       # Default parallel jobs
 ```
 
 ## 📋 Requirements
@@ -256,6 +311,7 @@ $env:APPSETTING_DEFAULT_SLOT = "staging"  # Default source slot
 ### Installation Commands
 ```powershell
 # One-time setup
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser  # Allow script execution
 Install-Module Az.Websites -Force -Scope CurrentUser
 Install-Module Pester -MinimumVersion 5.0 -Force -Scope CurrentUser
 Connect-AzAccount
@@ -264,6 +320,15 @@ Connect-AzAccount
 ## 🚨 Troubleshooting
 
 ### Common Issues
+
+**Execution Policy Errors**
+```powershell
+# If you get "execution of scripts is disabled on this system"
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+
+# Alternative: Bypass execution policy for a single session
+PowerShell -ExecutionPolicy Bypass -File ".\SampleAutomationRunbook.ps1" -WebApps "MyApp" -ResourceGroup "MyRG" -SettingName "TEST" -SettingValue "value"
+```
 
 **Authentication Errors**
 ```powershell
@@ -290,6 +355,15 @@ MIT License - see [LICENSE](LICENSE) file for details.
 
 ## 🏷️ Version History
 
+- **v3.0.0** - Slot-based deployment template approach
+  - Introduced comprehensive slot-based deployment workflow
+  - Settings updated in non-production slots first, then swapped to production
+  - Built-in validation checkpoints with rollback capability
+  - Removed timeout logic, focusing on clean deployment patterns
+  - Enhanced template documentation for production-safe deployments
+  - Updated parameters: WebApps, ResourceGroup, SettingName, SettingValue, Slot (non-production), MaxParallelJobs, DryRun, Force
+  - 5-phase deployment workflow: Update → Swap Preview → Validate → Complete Swap → Verify
+
 - **v2.0.0** - Complete rewrite with enterprise features
   - Enhanced deployment runbook with validation
   - Comprehensive test suite (25 tests)
@@ -305,7 +379,7 @@ MIT License - see [LICENSE](LICENSE) file for details.
 
 - **Issues**: [GitHub Issues](https://github.com/yourusername/AppSettingUpdater/issues)
 - **Discussions**: [GitHub Discussions](https://github.com/yourusername/AppSettingUpdater/discussions)
-- **Documentation**: See [RUNBOOK-EXAMPLES.md](RUNBOOK-EXAMPLES.md) for detailed scenarios
+- **Template**: Use `SampleAutomationRunbook.ps1` for slot-based deployment automation
 
 ---
 
