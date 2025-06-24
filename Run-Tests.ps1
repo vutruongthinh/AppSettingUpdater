@@ -4,6 +4,7 @@ param (
     [string]$ReportPath = "$PSScriptRoot\Reports\TestReport.xml"
 )
 
+# Logging start
 Write-Host "=== AppSettingUpdater Test Suite Runner ===" -ForegroundColor Cyan
 Write-Host "Test Path: $TestPath" -ForegroundColor Gray
 Write-Host "Module Path: $ModulePath" -ForegroundColor Gray
@@ -24,10 +25,11 @@ if ($pesterModule.Version.Major -lt 5) {
 
 Write-Host "Pester $($pesterModule.Version) detected" -ForegroundColor Green
 
+# Import the Module
 Import-Module -Name $ModulePath -Force
 
 # Import Pester 5.x (use the latest available 5.x version)
-Import-Module Pester -MinimumVersion 5.0 -Force
+Import-Module Pester -MinimumVersion 5.0 -Force -ErrorAction SilentlyContinue
 
 # Pester 5.x configuration
 $PesterConfig = New-PesterConfiguration
@@ -45,6 +47,7 @@ $testResult = Invoke-Pester -Configuration $PesterConfig
 $endTime = Get-Date
 $duration = $endTime - $startTime
 
+# Output test summary
 Write-Host ""
 Write-Host "=== Test Execution Summary ===" -ForegroundColor Cyan
 Write-Host "Duration: $([math]::Round($duration.TotalSeconds, 2)) seconds" -ForegroundColor Gray

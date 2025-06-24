@@ -3,7 +3,9 @@
     Automated Azure Web App deployment runbook with app setting updates and slot swapping.
 
 .DESCRIPTION
-    This runbook performs a complete deployment workflow:
+    This runbook can be used both manually (interactive validation) and automatically.
+    Refer to RUNBOOK-EXAMPLES.md for detailed usage examples.
+    The runbook performs a complete deployment workflow:
     1. Updates app settings in the specified slot
     2. Initiates slot swap with preview
     3. Performs validation checks

@@ -7,7 +7,7 @@
 
 ## 🎯 Overview
 
-**AppSettingUpdater v2.0** is an enterprise-grade PowerShell module for automated Azure Web App deployments with **zero-downtime slot swapping**. It provides safe, validated, and rollback-capable deployment automation for production environments.
+**AppSettingUpdater v2.0** is an PowerShell module for automated Azure Web App deployments with **zero-downtime slot swapping**. It provides safe, validated, and rollback-capable deployment automation for production environments.
 
 ### ✨ Key Features
 
